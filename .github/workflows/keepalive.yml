@@ -1,0 +1,19 @@
+name: Hugging Face Keep-Alive Ping
+on:
+  schedule:
+    - cron: '0 */6 * * *' # التنفيذ كل 6 ساعات
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping HF Space Health Endpoint
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" https://YOUR_USERNAME-YOUR_SPACE.hf.space/health)
+          if [ "$response" == "200" ]; then
+            echo "Space is awake and healthy."
+          else
+            echo "Failed to wake up space. HTTP Code: $response"
+            exit 1
+          fi
