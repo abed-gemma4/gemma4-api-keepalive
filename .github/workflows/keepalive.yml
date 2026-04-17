@@ -1,7 +1,7 @@
 name: Hugging Face Keep-Alive Ping
 on:
   schedule:
-    - cron: '0 */6 * * *' # التنفيذ كل 6 ساعات
+    - cron: '*/30 * * * *' # التنفيذ كل نصف ساعة لضمان الاستيقاظ الدائم
   workflow_dispatch:
 
 jobs:
@@ -10,7 +10,8 @@ jobs:
     steps:
       - name: Ping HF Space Health Endpoint
         run: |
-          response=$(curl -s -o /dev/null -w "%{http_code}" abedgemma/Abed-gemma4-chat-api.hf.space/health)
+          # 🔥 التعديل هنا: الرابط الصحيح بالكامل مع https
+          response=$(curl -s -o /dev/null -w "%{http_code}" https://abedgemma-abed-gemma4-chat-api.hf.space/health)
           if [ "$response" == "200" ]; then
             echo "Space is awake and healthy."
           else
